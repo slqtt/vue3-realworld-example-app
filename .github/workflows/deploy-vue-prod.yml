@@ -2,7 +2,7 @@ name: deploy vue to production
 on:
   push:
     branches:
-      - prod 
+      - prod # 只在prod分支推送时触发
 
 jobs:
   deploy-app:
@@ -13,7 +13,6 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
           run_install: false
 
       - name: Use Node.js 20.x
@@ -27,7 +26,7 @@ jobs:
           pnpm install --no-frozen-lockfile
           pnpm build
 
-      
+      # Ubuntu 24+ 必须添加
       - name: set the ubuntu user as the owner of the /var/www/html directory
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -48,7 +47,7 @@ jobs:
           target: "/var/www/html"
           strip_components: 1
 
-      
+      # Ubuntu 24+ 必须添加
       - name: set the root user back as the owner of the /var/www/html directory
         uses: appleboy/ssh-action@v1.2.0
         with:
